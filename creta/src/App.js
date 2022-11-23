@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import NavBar from './components/NavBar'
+import ViewPort from './components/ViewPort'
+import mainTheme from './style/mainTheme'
+import { CssBaseline, Box, Container, Toolbar } from '@mui/material'
+import { ThemeProvider } from '@emotion/react'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	return (
+		<>
+			<ThemeProvider theme={mainTheme}>
+					<Box sx={{display: 'flex'}}>
+						<CssBaseline/>
+							<NavBar/>
+							<Box
+							component="main"
+							sx={{
+								backgroundColor: (theme) =>
+								theme.palette.mode === 'light'
+									? theme.palette.grey[100]
+									: theme.palette.grey[900],
+								flexGrow: 1,
+								height: '100vh',
+								overflow: 'auto',
+							}}
+							>
+								<Toolbar/>
+								<Container maxWidth="lg" sx={{mt:4, mb: 4}}> {/*el mx de este container es lo que crea el hueco en los lados de la ui*/}
+                    <ViewPort/>
+								</Container>
+							</Box>
+					</Box>
+			</ThemeProvider>
+		</>
+	);
 }
 
 export default App;
