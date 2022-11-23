@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-
+import {Main} from "../../engine/Main";
 import { useState } from "react";
 
 export default function ImportButton({setFileContent}) {
@@ -10,7 +10,8 @@ export default function ImportButton({setFileContent}) {
 
         const reader = new FileReader();
         reader.addEventListener("load", () => {
-            setFileContent(reader.result);
+            let solveResult = Main(reader.result);
+            setFileContent(solveResult);
           });
         reader.readAsText(event.target.files[0]);
 	};
