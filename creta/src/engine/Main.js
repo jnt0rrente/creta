@@ -1,3 +1,4 @@
+import {Dfs} from "./Algorithms";
 
 export function Main(fileContents)  {
     console.log(fileContents)
@@ -10,7 +11,11 @@ export function Main(fileContents)  {
         }
         matriz.push(mline)
     });
-    console.log(matriz)
+    let algo = new Dfs(matriz);
+    console.log(matriz);
+    console.log(algo.matrix);
+    console.log(algo.startNode);
+    console.log(algo.endNode);
     return "hola"
 }
 
