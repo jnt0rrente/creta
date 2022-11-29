@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 
 function cellToStyle(cell) {
-    let style = {padding: "1em"}
+    let style = {padding: "1.5em"}
 
     if (cell.up == null) {
         style.borderTop = "1px solid"
@@ -45,7 +45,7 @@ export default function Table({matrix}) {
                                     {
                                         row.map((cell) => (
                                             <td key={cell.name} style={cellToStyle(cell)}>
-                                                {cell.name}
+                                                {}
                                             </td>
                                         ))
                                     }

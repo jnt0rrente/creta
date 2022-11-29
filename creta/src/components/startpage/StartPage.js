@@ -9,11 +9,13 @@ export default function ViewPort() {
 
     return (
         <>
-            <Box direction="column" justifyContent="center" alignItems="left" alignSelf="left">
+            <Box display="flex" flexDirection="column" justifyContent="center">
                 <Table matrix={matrix}/>
                 
-                <ImportButton setMatrix={setMatrix}/>
-                <CreateCustomButton/>                
+                <Box display="flex" flexDirection="row" justifyContent="space-evenly" paddingTop="1em">
+                    <ImportButton setMatrix={setMatrix}/>
+                    <CreateCustomButton/>  
+                </Box>        
             </Box>
         </>
     );

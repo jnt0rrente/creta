@@ -5,7 +5,7 @@ export default function ViewPort() {
 
     return (
         <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: "center"}}>
-            <Box sx={{display: 'flex', flexDirection: 'column', width: "30%", justifyContent: "center", mt: '4em'}}>
+            <Box sx={{display: 'flex', flexDirection: 'column', width: "50%", justifyContent: "center", mt: '4em'}}>
                 <StartPage/>
             </Box>
         </Box>

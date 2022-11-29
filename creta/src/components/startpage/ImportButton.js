@@ -18,7 +18,7 @@ export default function ImportButton({setMatrix}) {
 	};
 
     return (
-        <Button variant="contained" component="label">
+        <Button variant="contained" component="label" disabled={isFilePicked}>
             Import from file
             <input disabled={isFilePicked} hidden accept="text/*" type="file" onChange={changeHandler} />
         </Button>
