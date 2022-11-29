@@ -4,23 +4,23 @@ function cellToStyle(cell) {
     let style = {padding: "1.5em"}
 
     if (cell.up == null) {
-        style.borderTop = "1px solid"
+        style.borderTop = "2px solid"
     }
 
     if (cell.left == null) {
-        style.borderLeft = "1px solid"
+        style.borderLeft = "2px solid"
     }
 
     if (cell.down == null) {
-        style.borderBottom = "1px solid"
+        style.borderBottom = "2px solid"
     }
 
     if (cell.right == null) {
-        style.borderRight = "1px solid"
+        style.borderRight = "2px solid"
     }
 
-    if (cell.end) style.backgroundColor = "blue"
-    if (cell.start) style.backgroundColor = "green"
+    if (cell.end) style.backgroundColor = "lightBlue"
+    if (cell.start) style.backgroundColor = "lightGreen"
 
     return style
 }
