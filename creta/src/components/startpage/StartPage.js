@@ -1,16 +1,19 @@
 import ImportButton from "./ImportButton";
-import { Typography, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import CreateCustomButton from "./CreateCustomButton";
 import { useState } from "react";
+import Table from "../custom/Table";
 
 export default function ViewPort() {
-    const [fileContent, setFileContent] = useState('')
+    const [matrix, setMatrix] = useState()
+
     return (
         <>
             <Box direction="column" justifyContent="center" alignItems="left" alignSelf="left">
-                <ImportButton setFileContent={setFileContent}/>
-                <CreateCustomButton/>
-                <Typography>{fileContent}</Typography>
+                <Table matrix={matrix}/>
+                
+                <ImportButton setMatrix={setMatrix}/>
+                <CreateCustomButton/>                
             </Box>
         </>
     );

@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import {Main} from "../../engine/Main";
 import { useState } from "react";
 
-export default function ImportButton({setFileContent}) {
+export default function ImportButton({setMatrix}) {
     const [isFilePicked, setIsFilePicked] = useState(false);
 
     const changeHandler = (event) => {
@@ -10,8 +10,9 @@ export default function ImportButton({setFileContent}) {
 
         const reader = new FileReader();
         reader.addEventListener("load", () => {
-            let solveResult = Main(reader.result);
-            setFileContent(solveResult);
+            let initialParse = Main(reader.result);
+
+            setMatrix(initialParse);
           });
         reader.readAsText(event.target.files[0]);
 	};
