@@ -16,6 +16,6 @@ export function Main(fileContents)  {
     console.log(algo.matrix);
     console.log(algo.startNode);
     console.log(algo.endNode);
-    return "hola"
+    return matriz
 }
 
