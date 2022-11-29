@@ -1,27 +1,54 @@
-class Cell {
+export class Cell {
 
-    #up;
-
-    constructor(tup,tdown,tright,tleft) {
-
+    constructor(up, down, right, left) {
+        this.up = up;
+        this.right = right;
+        this.left = left;
+        this.down = down;
+        this.visited = false;
+        this.value = 0;
+        this.end = false;
+        this.name = "";
     }
 
+    get isEnd(){
+        return this.visited();
+    }
 
-    // Instance method
-    myMethod() {
-        // myMethod body
+    set setEnd(end) {
+        this.end = end;
     }
-    // Static field
-    static myStaticField = "bar";
-    // Static method
-    static myStaticMethod() {
-        // myStaticMethod body
+
+    set setUp(up) {
+        this.up = up;
     }
-    // Static block
-    static {
-        // Static initialization code
+
+    set setDown(down) {
+        this.down = down;
     }
-    // Fields, methods, static fields, and static methods all have
-    // "private" forms
-    #myPrivateField = "bar";
+
+    set setLeft(left) {
+        this.left = left;
+    }
+
+    set setRight(right) {
+        this.right = right;
+    }
+
+    get isVisited(){
+        return this.visited;
+    }
+
+    set setVisited(visited) {
+        this.visited = visited;
+    }
+
+    get getValue(){
+        return this.value;
+    }
+
+    set setName(name){
+        this.name = name;
+    }
+
 }
