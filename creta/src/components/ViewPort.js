@@ -1,18 +1,14 @@
-import CreateCustomButton from "./startpage/CreateCustomButton";
-import ImportButton from "./startpage/ImportButton";
-
-import { useState } from "react";
-import { Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import StartPage from "./startpage/StartPage"
 
 export default function ViewPort() {
-    const [fileContent, setFileContent] = useState('')
 
     return (
-        <>
-            <ImportButton setFileContent={setFileContent}/>
-            <CreateCustomButton/>
-            <Typography>{fileContent}</Typography>
-        </>
+        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: "center"}}>
+            <Box sx={{display: 'flex', flexDirection: 'column', width: "30%", justifyContent: "center", mt: '4em'}}>
+                <StartPage/>
+            </Box>
+        </Box>
     );
 }
 
