@@ -23,6 +23,11 @@ export class Algorithms {
         this.startNode = this.matrix[matrix[matrix.length-2][0]][matrix[matrix.length-2][2]];
 
         this.endNode = this.matrix[matrix[matrix.length-1][0]][matrix[matrix.length-1][2]];
+        this.endNode.setEnd(true);
+
+        this.stack = [];
+
+        this.finish = false;
 
     }
 
@@ -45,11 +50,37 @@ export class Algorithms {
         }
     }
 
-    run () {
-
-    }
+    run () {}
 }
 
 export class Dfs extends Algorithms {
 
+    run() {
+        this.solve(this.startNode, 1);
+    }
+
+    solve(node, cont) {
+
+        node.changeState(cont);
+        this.stack.push(node);
+
+        if (!node.isEnd) {
+
+            node.checkWays().forEach((element) => {
+                if(!this.finish) {
+                    let n = cont + 1
+                    this.solve(element, n)
+                }
+            })
+
+            if(!this.finish) {
+                node.setValue(0)
+                this.stack.pop();
+            }
+
+        } else {
+            this.finish = true;
+        }
+
+    }
 }

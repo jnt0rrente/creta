@@ -16,6 +16,9 @@ export function Main(fileContents)  {
     console.log(algo.matrix);
     console.log(algo.startNode);
     console.log(algo.endNode);
+    algo.run();
+    console.log(algo.stack);
+    console.log(algo.matrix);
     return "hola"
 }
 

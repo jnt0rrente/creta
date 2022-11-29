@@ -12,10 +12,10 @@ export class Cell {
     }
 
     get isEnd(){
-        return this.visited();
+        return this.end;
     }
 
-    set setEnd(end) {
+    setEnd(end) {
         this.end = end;
     }
 
@@ -47,8 +47,31 @@ export class Cell {
         return this.value;
     }
 
+    setValue(value){
+        this.value = value;
+    }
+
     set setName(name){
         this.name = name;
     }
 
+    checkWays () {
+        let posWays = [];
+
+        if(this.noWall(this.up) && !this.up.visited) posWays.push(this.up);
+        if(this.noWall(this.left) && !this.left.visited)  posWays.push(this.left);
+        if(this.noWall(this.down) && !this.down.visited) posWays.push(this.down);
+        if(this.noWall(this.right) && !this.right.visited) posWays.push(this.right);
+
+        return posWays
+    }
+
+    noWall(dir) {
+        return dir !== null  ;
+    }
+
+    changeState(cont){
+        this.visited = true;
+        this.value = cont;
+    }
 }
