@@ -20,6 +20,6 @@ export function Main(fileContents)  {
     algo.run();
     console.log(algo.stack);
     console.log(algo.matrix);
-    return matriz
+    return algo.matrix
 }
 
