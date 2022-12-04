@@ -1,10 +1,7 @@
 import { Button } from "@mui/material";
 import {Main} from "../../engine/Main";
-import { useState } from "react";
 
-export default function ImportButton({setMatrix}) {
-    const [isFilePicked, setIsFilePicked] = useState(false);
-
+export default function ImportButton({setMatrix, isFilePicked, setIsFilePicked}) {
     const changeHandler = (event) => {
 		setIsFilePicked(true);
 
