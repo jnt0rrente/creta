@@ -4,7 +4,7 @@ import CreateCustomButton from "./CreateCustomButton";
 import BackButton from "./BackButton";
 import SolveButton from "./SolveButton";
 import Table from "../custom/Table";
-
+import {Main} from "../../engine/Main";
 import { useState } from "react";
 
 export default function MainPage() {
@@ -12,16 +12,25 @@ export default function MainPage() {
     const [isMatrixLoaded, setMatrixLoaded] = useState(false)
     const [isFilePicked, setIsFilePicked] = useState(false);
 
-    const loadMaze = (mazeMatrix) => {
-        setMatrix(mazeMatrix)
-        setMatrixLoaded(true)
-    }
-
     const reset = () => {
         setMatrix(null)
         setMatrixLoaded(false)
         setIsFilePicked(false)
     }
+
+    const loadFileFunction = (event) => {
+		setIsFilePicked(true);
+
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            let initialParse = Main(reader.result);
+
+            setMatrix(initialParse);
+          });
+        reader.readAsText(event.target.files[0]);
+
+        setMatrixLoaded(true)
+	};
 
     return (
         <>
@@ -34,7 +43,7 @@ export default function MainPage() {
                         <SolveButton/>
                     </Box> :
                     <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
-                        <ImportButton setMatrix={loadMaze} isFilePicked={isFilePicked} setIsFilePicked={setIsFilePicked}/>
+                        <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>
                         <CreateCustomButton/>
                     </Box>
                 }
