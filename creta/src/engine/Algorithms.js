@@ -91,3 +91,62 @@ export class Dfs extends Algorithms {
 
     }
 }
+
+export class Bfs extends Algorithms {
+
+    constructor(matrix) {
+        super(matrix);
+
+        this.queue = [];
+
+        this.result = [];
+    }
+
+    run() {
+        this.cont = 1;
+        this.solve(this.startNode);
+    }
+
+    solve(node) {
+
+        node.changeState(this.cont);
+
+        if(!this.finish) {
+            this.stack.push(node);
+
+            this.step.push([].concat(this.stack))
+        }
+
+        if (!node.isEnd) {
+
+            node.checkWays().forEach((element) => {
+                this.queue.push(element)
+            })
+
+            while( this.queue.length !== 0){
+                let element = this.queue.shift()
+                if(!element.isVisited()){
+                    this.cont = this.cont + 1;
+                    this.solve(element)
+                }
+            }
+
+        } else {
+            this.finish = true;
+
+            this.getSolution(node);
+        }
+
+    }
+
+    getSolution(node){
+        if(node !== null){
+            this.result.push(node)
+
+            let prev = node.checkPrevious();
+            this.getSolution(prev)
+        } else {
+            this.result.reverse()
+        }
+    }
+}
