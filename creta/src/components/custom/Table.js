@@ -36,7 +36,6 @@ export default function Table({matrix}) {
         (matrix == null) ? <></> 
         : (
             <>
-                <p>Loaded Maze:</p>
                 <table style={{border: "1px solid", borderCollapse: "collapse"}}>
                     <tbody>
                         {

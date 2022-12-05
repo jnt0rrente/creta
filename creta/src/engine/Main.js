@@ -20,6 +20,7 @@ export function Main(fileContents)  {
 
     algo.run();
     console.log("DFS");
+    console.log(algo.result)
     console.log(algo.stack);
     console.log(algo.step);
     console.log(algo.matrix);
@@ -32,6 +33,12 @@ export function Main(fileContents)  {
     console.log(algo2.step);
     console.log(algo2.matrix);
 
-    return algo.matrix
+    let returnObject = {
+        matrix: algo.matrix,
+        dfs: algo,
+        bfs: algo2,
+    }
+
+    return returnObject
 }
 
