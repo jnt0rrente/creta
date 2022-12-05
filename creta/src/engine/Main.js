@@ -18,6 +18,7 @@ export function Main(fileContents)  {
     console.log(algo.endNode);
     algo.run();
     console.log(algo.stack);
+    console.log(algo.step);
     console.log(algo.matrix);
     return matriz
 }

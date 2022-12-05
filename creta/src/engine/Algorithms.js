@@ -29,6 +29,8 @@ export class Algorithms {
 
         this.finish = false;
 
+        this.step = [];
+
     }
 
     get getMatrix(){
@@ -56,25 +58,30 @@ export class Algorithms {
 export class Dfs extends Algorithms {
 
     run() {
-        this.solve(this.startNode, 1);
+        this.cont = 1;
+        this.solve(this.startNode);
     }
 
-    solve(node, cont) {
+    solve(node) {
 
-        node.changeState(cont);
-        this.stack.push(node);
+        node.changeState(this.cont);
+
+        if(!this.finish) {
+            this.stack.push(node);
+
+            this.step.push([].concat(this.stack))
+        }
 
         if (!node.isEnd) {
 
             node.checkWays().forEach((element) => {
-                if(!this.finish) {
-                    let n = cont + 1
-                    this.solve(element, n)
+                if(!element.isVisited()){
+                    this.cont = this.cont + 1;
+                    this.solve(element)
                 }
             })
 
             if(!this.finish) {
-                node.setValue(0)
                 this.stack.pop();
             }
 

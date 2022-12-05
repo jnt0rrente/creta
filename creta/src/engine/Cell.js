@@ -35,7 +35,7 @@ export class Cell {
         this.right = right;
     }
 
-    get isVisited(){
+    isVisited(){
         return this.visited;
     }
 
