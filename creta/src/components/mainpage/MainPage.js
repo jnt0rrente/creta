@@ -4,6 +4,7 @@ import CreateCustomButton from "./CreateCustomButton";
 import BackButton from "./BackButton";
 import SolveButton from "./SolveButton";
 import Table from "../custom/Table";
+import AlgorithmSelector from "./AlgorithmSelector";
 import {Main} from "../../engine/Main";
 import { useState } from "react";
 
@@ -11,6 +12,7 @@ export default function MainPage() {
     const [matrix, setMatrix] = useState(null)
     const [isMatrixLoaded, setMatrixLoaded] = useState(false)
     const [isFilePicked, setIsFilePicked] = useState(false);
+    const [algorithm, setAlgorithm] = useState("dfs")
 
     const reset = () => {
         setMatrix(null)
@@ -40,7 +42,10 @@ export default function MainPage() {
                     isMatrixLoaded ?
                     <Box display="flex" flexDirection="row" justifyContent="space-evenly" paddingTop="1em">
                         <BackButton reset={reset}/>
-                        <SolveButton/>
+                        <Box display="flex" flexDirection="row">
+                            <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
+                            <SolveButton/>
+                        </Box>
                     </Box> :
                     <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
                         <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>

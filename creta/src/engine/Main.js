@@ -32,6 +32,6 @@ export function Main(fileContents)  {
     console.log(algo2.step);
     console.log(algo2.matrix);
 
-    return matriz
+    return algo.matrix
 }
 
