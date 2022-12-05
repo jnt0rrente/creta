@@ -44,7 +44,7 @@ export class Cell {
         this.right = right;
     }
 
-    get isVisited(){
+    isVisited(){
         return this.visited;
     }
 
@@ -73,6 +73,24 @@ export class Cell {
         if(this.noWall(this.right) && !this.right.visited) posWays.push(this.right);
 
         return posWays
+    }
+
+    checkPrevious () {
+        let posPrev = [];
+
+        if(this.noWall(this.up) && this.up.visited && this.up.value < this.value) posPrev.push(this.up);
+        if(this.noWall(this.left) && this.left.visited && this.left.value < this.value)  posPrev.push(this.left);
+        if(this.noWall(this.down) && this.down.visited && this.down.value < this.value) posPrev.push(this.down);
+        if(this.noWall(this.right) && this.right.visited && this.right.value < this.value) posPrev.push(this.right);
+
+        posPrev.sort(function(a, b){return a - b})
+
+        if(posPrev.length > 0){
+            return posPrev[0];
+        } else {
+            return null;
+        }
+
     }
 
     noWall(dir) {
