@@ -8,6 +8,7 @@ export class Cell {
         this.visited = false;
         this.value = 0;
         this.end = false;
+        this.start = false;
         this.name = "";
     }
 
@@ -17,6 +18,14 @@ export class Cell {
 
     setEnd(end) {
         this.end = end;
+    }
+
+    get isStart() {
+        return this.start;
+    }
+
+    setStart(start) {
+        this.start = start;
     }
 
     set setUp(up) {

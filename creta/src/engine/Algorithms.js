@@ -21,7 +21,7 @@ export class Algorithms {
         }
 
         this.startNode = this.matrix[matrix[matrix.length-2][0]][matrix[matrix.length-2][2]];
-
+        this.startNode.setStart(true)
         this.endNode = this.matrix[matrix[matrix.length-1][0]][matrix[matrix.length-1][2]];
         this.endNode.setEnd(true);
 
