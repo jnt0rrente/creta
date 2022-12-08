@@ -46,7 +46,7 @@ export default function Table({matrix, solution}) {
         (matrix == null) ? <></> 
         : (
             <>
-                <table style={{border: "1px solid", borderCollapse: "collapse"}}>
+                <table style={{border: "1px solid", borderCollapse: "collapse", width: "4vh", alignSelf: "center"}}>
                     <tbody>
                         {
                             (matrix.map((row, index) => (
