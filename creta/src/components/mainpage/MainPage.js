@@ -50,10 +50,9 @@ export default function MainPage() {
         setTimeout(() => {
             setIsSolving(false)
             setIsSolved(true)
+            if (algorithm === "dfs") setSolution(dfs.stack)
+            if (algorithm === "bfs") setSolution(bfs.result)
         }, 1500);
-        
-        if (algorithm === "dfs") setSolution(dfs.stack)
-        if (algorithm === "bfs") setSolution(bfs.result)
     }
 
     return (
