@@ -10,6 +10,9 @@ import { useState } from "react";
 
 export default function MainPage() {
     const [matrix, setMatrix] = useState(null);
+    const [dfs, setDfs] = useState(null);
+    const [bfs, setBfs] = useState(null);
+
     const [isMatrixLoaded, setMatrixLoaded] = useState(false);
     const [isFilePicked, setIsFilePicked] = useState(false);
     const [algorithm, setAlgorithm] = useState("dfs");
@@ -32,8 +35,9 @@ export default function MainPage() {
         const reader = new FileReader();
         reader.addEventListener("load", () => {
             let results = Main(reader.result);
-            setSolution(results)
             setMatrix(results.matrix);
+            setDfs(results.dfs)
+            setBfs(results.bfs)
           });
         reader.readAsText(event.target.files[0]);
 
@@ -46,8 +50,10 @@ export default function MainPage() {
         setTimeout(() => {
             setIsSolving(false)
             setIsSolved(true)
-          }, 1500);
+        }, 1500);
         
+        if (algorithm === "dfs") setSolution(dfs.stack)
+        if (algorithm === "bfs") setSolution(bfs.result)
     }
 
     return (
@@ -56,14 +62,13 @@ export default function MainPage() {
                 {
                     isSolved ?
                         <Typography>
-                            Solved!:
-                            {
-                                solution.dfs.stack.map((step) => step.value)
-                            }
+                            Solved!
                         </Typography>
                         : <></>
                 }
-                <Table matrix={matrix}/>
+                
+                <Table matrix={matrix} solution={solution}/>
+                
                 {
                     isSolving ? 
                         <Box sx={{ width: '100%' }} paddingTop="0.5em">

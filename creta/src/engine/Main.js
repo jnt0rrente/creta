@@ -20,7 +20,6 @@ export function Main(fileContents)  {
 
     algo.run();
     console.log("DFS");
-    console.log(algo.result)
     console.log(algo.stack);
     console.log(algo.step);
     console.log(algo.matrix);
