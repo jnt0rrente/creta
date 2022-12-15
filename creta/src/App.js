@@ -25,7 +25,7 @@ function App() {
 							}}
 							>
 								<Toolbar/>
-								<Container maxWidth="lg" sx={{mt:4, mb: 4}}> {/*el mx de este container es lo que crea el hueco en los lados de la ui*/}
+								<Container maxWidth="lg" sx={{mt:4, mb: 4}}>
                     <ViewPort/>
 								</Container>
 							</Box>
