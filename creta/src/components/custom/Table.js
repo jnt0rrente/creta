@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-function cellToStyle(cell, solution) {
+function cellToStyle(cell, display) {
     let style = {padding: "1.5em"}
 
     if (cell.up == null) {
@@ -19,13 +19,10 @@ function cellToStyle(cell, solution) {
         style.borderRight = "4px solid"
     }
 
-    if (solution) {
-        solution.forEach(solCell => {
+    if (display) {
+        display.forEach(solCell => {
             if (cell.name === solCell.name) {
-                console.log("coloring " + cell.name)
                 style.backgroundColor = "#B99EFF"
-            } else {
-                console.log("not coloring " + solCell.name)
             }
         });
     }
@@ -35,7 +32,7 @@ function cellToStyle(cell, solution) {
     return style
 }
 
-export default function Table({matrix, solution}) {
+export default function Table({matrix, display}) {
 
     useEffect(() => {
         console.log("Loaded: ")
@@ -53,7 +50,7 @@ export default function Table({matrix, solution}) {
                                 <tr key={"row"+index}>
                                     {
                                         row.map((cell) => (
-                                            <td key={cell.name} style={cellToStyle(cell, solution)}>
+                                            <td key={cell.name} style={cellToStyle(cell, display)}>
                                                 {}
                                             </td>
                                         ))
