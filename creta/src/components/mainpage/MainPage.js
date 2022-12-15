@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Typography } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import ImportButton from "./ImportButton";
 import CreateCustomButton from "./CreateCustomButton";
 import BackButton from "./BackButton";
@@ -6,7 +6,8 @@ import SolveButton from "./SolveButton";
 import Table from "../custom/Table";
 import AlgorithmSelector from "./AlgorithmSelector";
 import {Main} from "../../engine/Main";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import StepSlider from "./StepSlider";
 
 export default function MainPage() {
     const [matrix, setMatrix] = useState(null);
@@ -16,17 +17,31 @@ export default function MainPage() {
     const [isMatrixLoaded, setMatrixLoaded] = useState(false);
     const [isFilePicked, setIsFilePicked] = useState(false);
     const [algorithm, setAlgorithm] = useState("dfs");
-    const [solution, setSolution] = useState(null);
+
+    const [display, setDisplay] = useState(null);
+    const [steps, setSteps] = useState(null)
+    const [sliderSelection, setSliderSelection] = useState(null)
+
+    const [isSeeingSteps, setIsSeeingSteps] = useState(false)
     const [isSolving, setIsSolving] = useState(false);
     const [isSolved, setIsSolved] = useState(false);
 
     const reset = () => {
         setMatrix(null)
+        setDfs(null)
+        setBfs(null)
+
         setMatrixLoaded(false)
         setIsFilePicked(false)
-        setIsSolved(false)
+        setAlgorithm("dfs")
+
+        setDisplay(null)
+        setSteps(null)
+        setSliderSelection(null)
+
+        setIsSeeingSteps(false)
         setIsSolving(false)
-        setSolution(null)
+        setIsSolved(false)
     }
 
     const loadFileFunction = (event) => {
@@ -50,23 +65,36 @@ export default function MainPage() {
         setTimeout(() => {
             setIsSolving(false)
             setIsSolved(true)
-            if (algorithm === "dfs") setSolution(dfs.stack)
-            if (algorithm === "bfs") setSolution(bfs.result)
-        }, 1500);
+        }, 500);
     }
+
+    useEffect(() => {
+        if (bfs !== null && dfs !== null && isSolved) {
+            if (isSeeingSteps) {
+                if (algorithm === "dfs") {
+                    setSteps(dfs.step)
+                }
+                if (algorithm === "bfs") {
+                    setSteps(bfs.step)
+                }
+                setDisplay(steps ? steps[sliderSelection] : null)
+            } else {
+                if (algorithm === "dfs") {
+                    console.log("trigger dfs")
+                    setDisplay(dfs.stack)
+                }
+                if (algorithm === "bfs") {
+                    console.log("trigger bfs")
+                    setDisplay(bfs.result)
+                }
+            }
+        }
+    }, [sliderSelection, steps, isSolved, isSeeingSteps, algorithm, bfs, dfs])
 
     return (
         <>
             <Box display="flex" flexDirection="column" justifyContent="center">
-                {
-                    isSolved ?
-                        <Typography>
-                            Solved!
-                        </Typography>
-                        : <></>
-                }
-                
-                <Table matrix={matrix} solution={solution}/>
+                <Table matrix={matrix} display={display}/>
                 
                 {
                     isSolving ? 
@@ -74,16 +102,31 @@ export default function MainPage() {
                             <LinearProgress color="secondary"/>
                         </Box> : <></>
                 }
+
                 {
                     isMatrixLoaded ?
-                    <Box display="flex" flexDirection="row" justifyContent="space-evenly" paddingTop="1em">
-                        <BackButton reset={reset}/>
-                        <Box display="flex" flexDirection="row">
-                            <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
-                            <SolveButton onClick={onSolveClick}/>
-                        </Box>
-                    </Box> :
-                    <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
+                        <>
+                            {
+                                isSolved ? 
+                                <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} paddingTop="1em">
+                                    <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em">
+                                        <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
+                                        <StepSlider isSolved={isSolved} steps={steps} sliderSelection={sliderSelection} setSliderSelection={setSliderSelection} isSeeingSteps={isSeeingSteps} setIsSeeingSteps={setIsSeeingSteps}/>
+                                    </Box>
+
+                                    <Box display="flex" flexDirection="row" justifyContent="center" paddingTop="3em">
+                                        <BackButton reset={reset}/>
+                                    </Box>
+                                </Box> : 
+                                <Box display="flex" flexDirection="column" alignItems="center" paddingTop="1em">
+                                    <Box display="flex" flexDirection="row" justifyContent="space-between" width="12em">
+                                        <SolveButton onClick={onSolveClick}/>
+                                        <BackButton reset={reset}/>
+                                    </Box>
+                                </Box> 
+                            }
+                        </>                    
+                    : <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
                         <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>
                         <CreateCustomButton/>
                     </Box>
