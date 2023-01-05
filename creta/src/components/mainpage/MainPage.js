@@ -1,9 +1,10 @@
-import { Box, LinearProgress } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import ImportButton from "./ImportButton";
 import CreateCustomButton from "./CreateCustomButton";
 import BackButton from "./BackButton";
 import SolveButton from "./SolveButton";
 import Table from "../custom/Table";
+import MazeCreator from "../custom/MazeCreator";
 import AlgorithmSelector from "./AlgorithmSelector";
 import {Main} from "../../engine/Main";
 import { useEffect, useState } from "react";
@@ -25,6 +26,14 @@ export default function MainPage() {
     const [isSeeingSteps, setIsSeeingSteps] = useState(false)
     const [isSolving, setIsSolving] = useState(false);
     const [isSolved, setIsSolved] = useState(false);
+
+    const [creatingCustom, setCreatingCustom] = useState(false)
+    const [createdMaze, setCreatedMaze] = useState(null)
+
+    const creatingCustomClicked = () => {
+        setCreatingCustom(true)
+        console.log(creatingCustom)
+    }
 
     const reset = () => {
         setMatrix(null)
@@ -94,42 +103,50 @@ export default function MainPage() {
     return (
         <>
             <Box display="flex" flexDirection="column" justifyContent="center">
-                <Table matrix={matrix} display={display}/>
-                
                 {
-                    isSolving ? 
-                        <Box sx={{ width: '100%' }} paddingTop="0.5em">
-                            <LinearProgress color="secondary"/>
-                        </Box> : <></>
-                }
-
-                {
-                    isMatrixLoaded ?
+                    creatingCustom ? 
                         <>
+                            <Typography>Custom maze</Typography>
+                            <MazeCreator setOutput={setCreatedMaze}/>
+                        </> :
+                        <>
+                            <Table matrix={matrix} display={display}/>
                             {
-                                isSolved ? 
-                                <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} paddingTop="1em">
-                                    <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em">
-                                        <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
-                                        <StepSlider isSolved={isSolved} steps={steps} sliderSelection={sliderSelection} setSliderSelection={setSliderSelection} isSeeingSteps={isSeeingSteps} setIsSeeingSteps={setIsSeeingSteps}/>
-                                    </Box>
-
-                                    <Box display="flex" flexDirection="row" justifyContent="center" paddingTop="3em">
-                                        <BackButton reset={reset}/>
-                                    </Box>
-                                </Box> : 
-                                <Box display="flex" flexDirection="column" alignItems="center" paddingTop="1em">
-                                    <Box display="flex" flexDirection="row" justifyContent="space-between" width="12em">
-                                        <SolveButton onClick={onSolveClick}/>
-                                        <BackButton reset={reset}/>
-                                    </Box>
-                                </Box> 
+                                isSolving ? 
+                                    <Box sx={{ width: '100%' }} paddingTop="0.5em">
+                                        <LinearProgress color="secondary"/>
+                                    </Box> : <></>
                             }
-                        </>                    
-                    : <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
-                        <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>
-                        <CreateCustomButton/>
-                    </Box>
+
+                            {
+                                isMatrixLoaded ?
+                                    <>
+                                        {
+                                            isSolved ? 
+                                            <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} paddingTop="1em">
+                                                <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em">
+                                                    <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
+                                                    <StepSlider isSolved={isSolved} steps={steps} sliderSelection={sliderSelection} setSliderSelection={setSliderSelection} isSeeingSteps={isSeeingSteps} setIsSeeingSteps={setIsSeeingSteps}/>
+                                                </Box>
+
+                                                <Box display="flex" flexDirection="row" justifyContent="center" paddingTop="3em">
+                                                    <BackButton reset={reset}/>
+                                                </Box>
+                                            </Box> : 
+                                            <Box display="flex" flexDirection="column" alignItems="center" paddingTop="1em">
+                                                <Box display="flex" flexDirection="row" justifyContent="space-between" width="12em">
+                                                    <SolveButton onClick={onSolveClick}/>
+                                                    <BackButton reset={reset}/>
+                                                </Box>
+                                            </Box> 
+                                        }
+                                    </>                    
+                                : <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
+                                    <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>
+                                    <CreateCustomButton onClick={creatingCustomClicked}/>
+                                </Box>
+                            }
+                        </>
                 }
             </Box>
         </>
