@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 
 function cellToStyle(cell, display) {
     let style = {padding: "1.5em"}
@@ -33,11 +32,6 @@ function cellToStyle(cell, display) {
 }
 
 export default function Table({matrix, display}) {
-
-    useEffect(() => {
-        console.log("Loaded: ")
-        console.log(matrix)
-    }, [matrix])
 
     return (
         (matrix == null) ? <></> 

@@ -32,7 +32,6 @@ export default function MainPage() {
 
     const creatingCustomClicked = () => {
         setCreatingCustom(true)
-        console.log(creatingCustom)
     }
 
     const reset = () => {
@@ -51,6 +50,9 @@ export default function MainPage() {
         setIsSeeingSteps(false)
         setIsSolving(false)
         setIsSolved(false)
+
+        setCreatingCustom(false)
+        setCreatedMaze(null)
     }
 
     const loadFileFunction = (event) => {
@@ -108,6 +110,7 @@ export default function MainPage() {
                         <>
                             <Typography>Custom maze</Typography>
                             <MazeCreator setOutput={setCreatedMaze}/>
+                            <BackButton reset={reset}/>
                         </> :
                         <>
                             <Table matrix={matrix} display={display}/>
