@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -92,18 +92,14 @@ function modelToWalls(selectedModel) {
 
 function WallPickDialog({open, setOpen, i, j, creatingMatrix, setCreatingMatrix}) {
  
-    const [selection, setSelection] = useState(1)
-    const handleSelectChange = (event) => {
-        setSelection(event.target.value)
-    }
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleSave = () => {
+    const handleSave = (optionNumber) => {
         let newCreatingMatrix = creatingMatrix
-        newCreatingMatrix[i][j].walls = modelToWalls(selection)
+        newCreatingMatrix[i][j].walls = modelToWalls(optionNumber)
         
         if (i === 0) newCreatingMatrix[i][j].walls.top = true
         if (i === 7) newCreatingMatrix[i][j].walls.bottom = true
@@ -116,7 +112,11 @@ function WallPickDialog({open, setOpen, i, j, creatingMatrix, setCreatingMatrix}
 
     const handleDialogClick = e => {
         e.stopPropagation();
-      };
+    };
+
+    const optionClick = (optionNumber) => {
+        handleSave(optionNumber)
+    }
   
     return (
         <div>
@@ -126,37 +126,114 @@ function WallPickDialog({open, setOpen, i, j, creatingMatrix, setCreatingMatrix}
                     <DialogContentText>
                         Pick the wall model for this cell.
                     </DialogContentText>
-                    <img src="/table_numbers.png" alt="legend" width="300"/>
-                    <InputLabel id="demo-simple-select-label">Select one</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={selection}
-                        label="Option"
-                        onChange={handleSelectChange}
-                        style={{width: "12em"}}
-                    >
-                        <MenuItem value={1}>1</MenuItem>
-                        <MenuItem value={2}>2</MenuItem>
-                        <MenuItem value={3}>3</MenuItem>
-                        <MenuItem value={4}>4</MenuItem>
-                        <MenuItem value={5}>5</MenuItem>
-                        <MenuItem value={6}>6</MenuItem>
-                        <MenuItem value={7}>7</MenuItem>
-                        <MenuItem value={8}>8</MenuItem>
-                        <MenuItem value={9}>9</MenuItem>
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={11}>11</MenuItem>
-                        <MenuItem value={12}>12</MenuItem>
-                        <MenuItem value={13}>13</MenuItem>
-                        <MenuItem value={14}>14</MenuItem>
-                        <MenuItem value={15}>15</MenuItem>
-                        <MenuItem value={16}>16</MenuItem>
-                    </Select>
+                    <Box display="flex" alignItems={"center"} justifyItems="center">
+                        <table id="creatorModelTable">
+                            <tbody>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement1" onClick={() => optionClick(1)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement2" onClick={() => optionClick(2)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement3" onClick={() => optionClick(3)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement4" onClick={() => optionClick(4)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement5" onClick={() => optionClick(5)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement6" onClick={() => optionClick(6)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement7" onClick={() => optionClick(7)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement8" onClick={() => optionClick(8)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement9" onClick={() => optionClick(9)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement10" onClick={() => optionClick(10)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement11" onClick={() => optionClick(11)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement12" onClick={() => optionClick(12)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement13" onClick={() => optionClick(13)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement14" onClick={() => optionClick(14)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement15" onClick={() => optionClick(15)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td id="creatorModelTableElement16" onClick={() => optionClick(16)}></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            <tr>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                                <td className="creatorModelTableFiller"></td>
+                            </tr>
+                            </tbody>
+                        </table>   
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </div>

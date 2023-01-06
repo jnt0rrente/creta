@@ -31,7 +31,6 @@ export default function MainPage() {
 
     const [creatingCustom, setCreatingCustom] = useState(false)
     const [creatingMatrix, setCreatingMatrix] = useState(getEmptyMatrix())
-    const [createdMaze, setCreatedMaze] = useState("")
     
     const [startI, setStartI] = useState(0)
     const [startJ, setStartJ] = useState(0)
