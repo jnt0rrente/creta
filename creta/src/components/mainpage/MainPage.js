@@ -130,7 +130,6 @@ export default function MainPage() {
                 {
                     creatingCustom ? 
                         <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} gap="1em">
-                            <Typography>Custom maze</Typography>
                             <MazeCreator 
                                 creatingMatrix={creatingMatrix}
                                 setCreatingMatrix={setCreatingMatrix}
@@ -183,6 +182,7 @@ export default function MainPage() {
                                         }
                                     </>                    
                                 : <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
+                                    <Typography sx={{pb: "2em"}}>Welcome to Creta! You can import a maze or create your own in order to solve it using an algorithm of your choosing.</Typography>
                                     <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>
                                     <CreateCustomButton onClick={creatingCustomClicked}/>
                                 </Box>

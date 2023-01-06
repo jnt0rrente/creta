@@ -283,6 +283,7 @@ export default function MazeCreator({creatingMatrix, setCreatingMatrix, startI, 
 
     return (
             <>
+                {/* <p>Create your custom maze! The starting square is colored <div sx={{color: "lightGreen"}}>light green</div> and the goal is <div sx={{color: "lightBlue"}}>light blue</div>.</p> */}
                 <table style={{border: "1px solid", borderCollapse: "collapse", width: "4vh", alignSelf: "center"}}>
                     <tbody>
                         {

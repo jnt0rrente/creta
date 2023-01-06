@@ -13,10 +13,10 @@ export default function NavBar() {
         <AppBar position="absolute" elevation={2} sx={{justifyContent: "space-between", alignContent: "center"}}>
             <Toolbar
 				sx={{
-					pr: '24px', // keep right padding when drawer closed
+					justifyContent: "center"
 				}}
             >
-				<Box sx={{width: '20em', minWidth: '40%'}}>
+				<Box sx={{width: '20em', minWidth: '40%', alignSelf: "center"}}>
 					<Title/>
 				</Box>
             </Toolbar>
