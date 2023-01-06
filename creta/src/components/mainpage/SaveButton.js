@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 
-export default function CreateCustomButton({onClick}) {
+export default function SaveButton({onClick}) {
     return (
         <Button variant="contained" component="label" onClick={onClick}>
-            Custom maze
+            Save
         </Button>
     )
 }

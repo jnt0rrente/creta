@@ -1,13 +1,16 @@
-import { Box, LinearProgress } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import ImportButton from "./ImportButton";
 import CreateCustomButton from "./CreateCustomButton";
 import BackButton from "./BackButton";
+import SaveButton from "./SaveButton";
 import SolveButton from "./SolveButton";
 import Table from "../custom/Table";
+import MazeCreator from "../custom/MazeCreator";
 import AlgorithmSelector from "./AlgorithmSelector";
 import {Main} from "../../engine/Main";
 import { useEffect, useState } from "react";
 import StepSlider from "./StepSlider";
+import {mazeTranspile} from "../../engine/Export"
 
 export default function MainPage() {
     const [matrix, setMatrix] = useState(null);
@@ -26,6 +29,19 @@ export default function MainPage() {
     const [isSolving, setIsSolving] = useState(false);
     const [isSolved, setIsSolved] = useState(false);
 
+    const [creatingCustom, setCreatingCustom] = useState(false)
+    const [creatingMatrix, setCreatingMatrix] = useState(getEmptyMatrix())
+    const [createdMaze, setCreatedMaze] = useState("")
+    
+    const [startI, setStartI] = useState(0)
+    const [startJ, setStartJ] = useState(0)
+    const [endI, setEndI] = useState(7)
+    const [endJ, setEndJ] = useState(7)
+
+    const creatingCustomClicked = () => {
+        setCreatingCustom(true)
+    }
+
     const reset = () => {
         setMatrix(null)
         setDfs(null)
@@ -42,6 +58,8 @@ export default function MainPage() {
         setIsSeeingSteps(false)
         setIsSolving(false)
         setIsSolved(false)
+
+        setCreatingCustom(false)
     }
 
     const loadFileFunction = (event) => {
@@ -58,6 +76,24 @@ export default function MainPage() {
 
         setMatrixLoaded(true)
 	};
+
+    const onSaveCreatedMaze = () => {
+        let results = Main(mazeTranspile(
+            creatingMatrix,
+            startI,
+            startJ,
+            endI,
+            endJ
+        ));
+
+        setMatrix(results.matrix);
+        setDfs(results.dfs)
+        setBfs(results.bfs)
+
+        setIsFilePicked(true)
+        setMatrixLoaded(true)
+        setCreatingCustom(false)
+    }
 
     const onSolveClick = () => {
         setIsSolved(false)
@@ -80,11 +116,9 @@ export default function MainPage() {
                 setDisplay(steps ? steps[sliderSelection] : null)
             } else {
                 if (algorithm === "dfs") {
-                    console.log("trigger dfs")
                     setDisplay(dfs.stack)
                 }
                 if (algorithm === "bfs") {
-                    console.log("trigger bfs")
                     setDisplay(bfs.result)
                 }
             }
@@ -94,44 +128,93 @@ export default function MainPage() {
     return (
         <>
             <Box display="flex" flexDirection="column" justifyContent="center">
-                <Table matrix={matrix} display={display}/>
-                
                 {
-                    isSolving ? 
-                        <Box sx={{ width: '100%' }} paddingTop="0.5em">
-                            <LinearProgress color="secondary"/>
-                        </Box> : <></>
-                }
+                    creatingCustom ? 
+                        <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} gap="1em">
+                            <Typography>Custom maze</Typography>
+                            <MazeCreator 
+                                creatingMatrix={creatingMatrix}
+                                setCreatingMatrix={setCreatingMatrix}
 
-                {
-                    isMatrixLoaded ?
+                                startI={startI} 
+                                setStartI={setStartI} 
+                                startJ={startJ} 
+                                setStartJ={setStartJ}
+
+                                endI={endI} 
+                                setEndI={setEndI} 
+                                endJ={endJ} 
+                                setEndJ={setEndJ}
+                            />
+                            <Box display="flex" flexDirection="row" justifyContent="space-between" width="12em">
+                                <SaveButton onClick={onSaveCreatedMaze}/>
+                                <BackButton reset={reset}/>
+                            </Box>
+                        </Box> :
                         <>
+                            <Table matrix={matrix} display={display}/>
                             {
-                                isSolved ? 
-                                <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} paddingTop="1em">
-                                    <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em">
-                                        <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
-                                        <StepSlider isSolved={isSolved} steps={steps} sliderSelection={sliderSelection} setSliderSelection={setSliderSelection} isSeeingSteps={isSeeingSteps} setIsSeeingSteps={setIsSeeingSteps}/>
-                                    </Box>
-
-                                    <Box display="flex" flexDirection="row" justifyContent="center" paddingTop="3em">
-                                        <BackButton reset={reset}/>
-                                    </Box>
-                                </Box> : 
-                                <Box display="flex" flexDirection="column" alignItems="center" paddingTop="1em">
-                                    <Box display="flex" flexDirection="row" justifyContent="space-between" width="12em">
-                                        <SolveButton onClick={onSolveClick}/>
-                                        <BackButton reset={reset}/>
-                                    </Box>
-                                </Box> 
+                                isSolving ? 
+                                    <Box sx={{ width: '100%' }} paddingTop="0.5em">
+                                        <LinearProgress color="secondary"/>
+                                    </Box> : <></>
                             }
-                        </>                    
-                    : <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
-                        <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>
-                        <CreateCustomButton/>
-                    </Box>
+
+                            {
+                                isMatrixLoaded ?
+                                    <>
+                                        {
+                                            isSolved ? 
+                                            <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} paddingTop="1em">
+                                                <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em">
+                                                    <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
+                                                    <StepSlider isSolved={isSolved} steps={steps} sliderSelection={sliderSelection} setSliderSelection={setSliderSelection} isSeeingSteps={isSeeingSteps} setIsSeeingSteps={setIsSeeingSteps}/>
+                                                </Box>
+
+                                                <Box display="flex" flexDirection="row" justifyContent="center" paddingTop="3em">
+                                                    <BackButton reset={reset}/>
+                                                </Box>
+                                            </Box> : 
+                                            <Box display="flex" flexDirection="column" alignItems="center" paddingTop="1em">
+                                                <Box display="flex" flexDirection="row" justifyContent="space-between" width="12em">
+                                                    <SolveButton onClick={onSolveClick}/>
+                                                    <BackButton reset={reset}/>
+                                                </Box>
+                                            </Box> 
+                                        }
+                                    </>                    
+                                : <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em" gap="1em" width="20em" maxWidth="20em" alignSelf="center">
+                                    <ImportButton isFilePicked={isFilePicked} loadFileFunction={loadFileFunction}/>
+                                    <CreateCustomButton onClick={creatingCustomClicked}/>
+                                </Box>
+                            }
+                        </>
                 }
             </Box>
         </>
     );
+}
+
+
+
+function getEmptyMatrix() {
+    let newMatrix = []
+    for (let i = 0; i < 8; i++) {
+        let row = []
+        for (let j = 0; j < 8; j++) {
+            row.push(
+                {
+                    i,
+                    j,
+                    walls: {
+                        top: i===0,
+                        right: j===7,
+                        bottom: i===7,
+                        left: j===0
+                    }}) //walls: top right bottom left (clockwise). true hay pared, false no hay pared
+        }
+        newMatrix.push(row)
+    }
+
+    return newMatrix
 }
