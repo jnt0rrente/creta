@@ -21,6 +21,7 @@ export class Algorithms {
         }
 
         this.startNode = this.matrix[matrix[matrix.length-2][0]][matrix[matrix.length-2][2]];
+        console.log(this.startNode)
         this.startNode.setStart(true)
         this.endNode = this.matrix[matrix[matrix.length-1][0]][matrix[matrix.length-1][2]];
         this.endNode.setEnd(true);
@@ -30,6 +31,9 @@ export class Algorithms {
         this.finish = false;
 
         this.step = [];
+
+        console.log("AAA")
+        console.log(this.matrix)
 
     }
 

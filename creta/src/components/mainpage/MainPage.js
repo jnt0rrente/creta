@@ -2,6 +2,7 @@ import { Box, LinearProgress, Typography } from "@mui/material";
 import ImportButton from "./ImportButton";
 import CreateCustomButton from "./CreateCustomButton";
 import BackButton from "./BackButton";
+import SaveButton from "./SaveButton";
 import SolveButton from "./SolveButton";
 import Table from "../custom/Table";
 import MazeCreator from "../custom/MazeCreator";
@@ -9,6 +10,7 @@ import AlgorithmSelector from "./AlgorithmSelector";
 import {Main} from "../../engine/Main";
 import { useEffect, useState } from "react";
 import StepSlider from "./StepSlider";
+import {mazeTranspile} from "../../engine/Export"
 
 export default function MainPage() {
     const [matrix, setMatrix] = useState(null);
@@ -28,7 +30,13 @@ export default function MainPage() {
     const [isSolved, setIsSolved] = useState(false);
 
     const [creatingCustom, setCreatingCustom] = useState(false)
-    const [createdMaze, setCreatedMaze] = useState(null)
+    const [creatingMatrix, setCreatingMatrix] = useState(getEmptyMatrix())
+    const [createdMaze, setCreatedMaze] = useState("")
+    
+    const [startI, setStartI] = useState(0)
+    const [startJ, setStartJ] = useState(0)
+    const [endI, setEndI] = useState(7)
+    const [endJ, setEndJ] = useState(7)
 
     const creatingCustomClicked = () => {
         setCreatingCustom(true)
@@ -52,7 +60,6 @@ export default function MainPage() {
         setIsSolved(false)
 
         setCreatingCustom(false)
-        setCreatedMaze(null)
     }
 
     const loadFileFunction = (event) => {
@@ -69,6 +76,24 @@ export default function MainPage() {
 
         setMatrixLoaded(true)
 	};
+
+    const onSaveCreatedMaze = () => {
+        let results = Main(mazeTranspile(
+            creatingMatrix,
+            startI,
+            startJ,
+            endI,
+            endJ
+        ));
+
+        setMatrix(results.matrix);
+        setDfs(results.dfs)
+        setBfs(results.bfs)
+
+        setIsFilePicked(true)
+        setMatrixLoaded(true)
+        setCreatingCustom(false)
+    }
 
     const onSolveClick = () => {
         setIsSolved(false)
@@ -91,11 +116,9 @@ export default function MainPage() {
                 setDisplay(steps ? steps[sliderSelection] : null)
             } else {
                 if (algorithm === "dfs") {
-                    console.log("trigger dfs")
                     setDisplay(dfs.stack)
                 }
                 if (algorithm === "bfs") {
-                    console.log("trigger bfs")
                     setDisplay(bfs.result)
                 }
             }
@@ -107,11 +130,27 @@ export default function MainPage() {
             <Box display="flex" flexDirection="column" justifyContent="center">
                 {
                     creatingCustom ? 
-                        <>
+                        <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} gap="1em">
                             <Typography>Custom maze</Typography>
-                            <MazeCreator setOutput={setCreatedMaze}/>
-                            <BackButton reset={reset}/>
-                        </> :
+                            <MazeCreator 
+                                creatingMatrix={creatingMatrix}
+                                setCreatingMatrix={setCreatingMatrix}
+
+                                startI={startI} 
+                                setStartI={setStartI} 
+                                startJ={startJ} 
+                                setStartJ={setStartJ}
+
+                                endI={endI} 
+                                setEndI={setEndI} 
+                                endJ={endJ} 
+                                setEndJ={setEndJ}
+                            />
+                            <Box display="flex" flexDirection="row" justifyContent="space-between" width="12em">
+                                <SaveButton onClick={onSaveCreatedMaze}/>
+                                <BackButton reset={reset}/>
+                            </Box>
+                        </Box> :
                         <>
                             <Table matrix={matrix} display={display}/>
                             {
@@ -154,4 +193,28 @@ export default function MainPage() {
             </Box>
         </>
     );
+}
+
+
+
+function getEmptyMatrix() {
+    let newMatrix = []
+    for (let i = 0; i < 8; i++) {
+        let row = []
+        for (let j = 0; j < 8; j++) {
+            row.push(
+                {
+                    i,
+                    j,
+                    walls: {
+                        top: i===0,
+                        right: j===7,
+                        bottom: i===7,
+                        left: j===0
+                    }}) //walls: top right bottom left (clockwise). true hay pared, false no hay pared
+        }
+        newMatrix.push(row)
+    }
+
+    return newMatrix
 }

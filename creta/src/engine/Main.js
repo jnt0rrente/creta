@@ -13,24 +13,24 @@ export function Main(fileContents)  {
     });
     let algo = new Dfs(matriz);
     let algo2 = new Bfs(matriz);
-    console.log(matriz);
-    console.log(algo.matrix);
-    console.log(algo.startNode);
-    console.log(algo.endNode);
+    // console.log(matriz);
+    // console.log(algo.matrix);
+    // console.log(algo.startNode);
+    // console.log(algo.endNode);
 
     algo.run();
-    console.log("DFS");
-    console.log(algo.stack);
-    console.log(algo.step);
-    console.log(algo.matrix);
-    console.log("\n");
+    // console.log("DFS");
+    // console.log(algo.stack);
+    // console.log(algo.step);
+    // console.log(algo.matrix);
+    // console.log("\n");
 
     algo2.run();
-    console.log("BFS");
-    console.log(algo2.result)
-    console.log(algo2.stack);
-    console.log(algo2.step);
-    console.log(algo2.matrix);
+    // console.log("BFS");
+    // console.log(algo2.result)
+    // console.log(algo2.stack);
+    // console.log(algo2.step);
+    // console.log(algo2.matrix);
 
     let returnObject = {
         matrix: algo.matrix,

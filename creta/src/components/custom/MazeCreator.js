@@ -8,10 +8,91 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Box } from "@mui/material";
+
+function modelToWalls(selectedModel) {
+    let retWalls = {
+        top: false,
+        right: false,
+        bottom: false,
+        left: false
+    }
+
+    switch(selectedModel) {
+        case 1: 
+            break
+        case 2:
+            retWalls.top = true
+            break
+        case 3:
+            retWalls.right = true
+            break
+        case 4:
+            retWalls.bottom = true
+            break
+        case 5:
+            retWalls.left = true
+            break
+        case 6:
+            retWalls.top = true
+            retWalls.bottom = true
+            break
+        case 7:
+            retWalls.right = true
+            retWalls.left = true
+            break
+        case 8:
+            retWalls.top = true
+            retWalls.right = true
+            break
+        case 9:
+            retWalls.right = true
+            retWalls.bottom = true
+            break
+        case 10:
+            retWalls.left = true
+            retWalls.bottom = true
+            break
+        case 11:
+            retWalls.left = true
+            retWalls.top = true
+            break
+        case 12:
+            retWalls.top = true
+            retWalls.right = true
+            retWalls.bottom = true
+            break
+        case 13:
+            retWalls.left = true
+            retWalls.right = true
+            retWalls.bottom = true
+            break
+        case 14:
+            retWalls.top = true
+            retWalls.left = true
+            retWalls.bottom = true
+            break
+        case 15:
+            retWalls.top = true
+            retWalls.right = true
+            retWalls.left = true
+            break
+        case 16:
+            retWalls.top = true
+            retWalls.right = true
+            retWalls.bottom = true
+            retWalls.left = true
+            break
+        default:
+            throw new Error("??")
+    }
+
+    return retWalls
+}
 
 function WallPickDialog({open, setOpen, i, j, creatingMatrix, setCreatingMatrix}) {
  
-    const [selection, setSelection] = useState('')
+    const [selection, setSelection] = useState(1)
     const handleSelectChange = (event) => {
         setSelection(event.target.value)
     }
@@ -21,6 +102,15 @@ function WallPickDialog({open, setOpen, i, j, creatingMatrix, setCreatingMatrix}
     };
 
     const handleSave = () => {
+        let newCreatingMatrix = creatingMatrix
+        newCreatingMatrix[i][j].walls = modelToWalls(selection)
+        
+        if (i === 0) newCreatingMatrix[i][j].walls.top = true
+        if (i === 7) newCreatingMatrix[i][j].walls.bottom = true
+        if (j === 0) newCreatingMatrix[i][j].walls.left = true
+        if (j === 7) newCreatingMatrix[i][j].walls.right = true
+
+        setCreatingMatrix(newCreatingMatrix)
         setOpen(false);
     };
 
@@ -66,14 +156,39 @@ function WallPickDialog({open, setOpen, i, j, creatingMatrix, setCreatingMatrix}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Save</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </div>
     );
 }
 
-function CustomCell({i, j, creatingMatrix, setCreatingMatrix}) {
+function CoordSelector({identifier, label, value, setter}) {
+    return (
+        <Box display="flex" flexDirection={"column"}>
+            <InputLabel id={identifier+"-simple-select-label"}>{label}</InputLabel>
+            <Select
+                labelId={identifier+"-simple-select-label"}
+                id={identifier+"-simple-select"}
+                value={value}
+                label={label}
+                onChange={(event) => setter(event.target.value)}
+                style={{width: "12em"}}
+            >
+                <MenuItem value={0}>0</MenuItem>
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={7}>7</MenuItem>
+            </Select>
+        </Box>
+    )
+}
+
+function CustomCell({i, j, creatingMatrix, setCreatingMatrix, isStart, isEnd}) {
 
     const [dialogOpen, setDialogOpen] = useState(false)
     const cellClick = () => {
@@ -81,38 +196,14 @@ function CustomCell({i, j, creatingMatrix, setCreatingMatrix}) {
     }
 
     return (
-        <td id="tablehoverable" key={""+i+""+j} style={cellToStyle(creatingMatrix[i][j])} onClick={cellClick}>
+        <td id="tablehoverable" key={""+i+""+j} style={cellToStyle(creatingMatrix[i][j], isStart, isEnd)} onClick={cellClick}>
             <WallPickDialog open={dialogOpen} setOpen={setDialogOpen} i={i} j={j} creatingMatrix={creatingMatrix} setCreatingMatrix={setCreatingMatrix}/>
         </td>
     )
 }
 
-function getEmptyMatrix() {
-    let newMatrix = []
-    for (let i = 0; i < 8; i++) {
-        let row = []
-        for (let j = 0; j < 8; j++) {
-            row.push(
-                {
-                    i,
-                    j,
-                    walls: {
-                        top: i===0,
-                        right: j===7,
-                        bottom: i===7,
-                        left: j===0
-                    }}) //walls: top right bottom left (clockwise). true hay pared, false no hay pared
-        }
-        newMatrix.push(row)
-    }
+export default function MazeCreator({creatingMatrix, setCreatingMatrix, startI, setStartI, startJ, setStartJ, endI, setEndI, endJ, setEndJ}) {
 
-    return newMatrix
-}
-
-export default function MazeCreator({setOutput}) {
-
-    const [creatingMatrix, setCreatingMatrix] = useState(getEmptyMatrix())
-   
     return (
             <>
                 <table style={{border: "1px solid", borderCollapse: "collapse", width: "4vh", alignSelf: "center"}}>
@@ -122,7 +213,7 @@ export default function MazeCreator({setOutput}) {
                                 <tr key={"row"+index}>
                                     {
                                         row.map((cell) => (
-                                            <CustomCell key={cell.i + "" + cell.j} i={cell.i} j={cell.j} creatingMatrix={creatingMatrix} setCreatingMatrix={setCreatingMatrix}/>
+                                            <CustomCell key={cell.i + "" + cell.j} i={cell.i} j={cell.j} isStart={(startI === cell.i && startJ === cell.j)} isEnd={(endI === cell.i && endJ === cell.j)} creatingMatrix={creatingMatrix} setCreatingMatrix={setCreatingMatrix}/>
                                         ))
                                     }
                                 </tr>
@@ -130,11 +221,43 @@ export default function MazeCreator({setOutput}) {
                         }
                     </tbody>
                 </table>
+                <Box display="flex" gap="1em">
+                    <Box display="flex" flexDirection="column">
+                        <CoordSelector
+                            identifier="startI"
+                            label="Starting square I"
+                            value={startI}
+                            setter={setStartI}
+                        />
+
+                        <CoordSelector
+                            identifier="endI"
+                            label="Ending square I"
+                            value={endI}
+                            setter={setEndI}
+                        />
+                    </Box>
+                    <Box display="flex" flexDirection="column">
+                        <CoordSelector
+                            identifier="startJ"
+                            label="Starting square J"
+                            value={startJ}
+                            setter={setStartJ}
+                        />
+                        
+                        <CoordSelector
+                            identifier="endJ"
+                            label="Ending square J"
+                            value={endJ}
+                            setter={setEndJ}
+                        />
+                    </Box>
+                </Box>
             </>
         )        
 }
 
-function cellToStyle(cell) {
+function cellToStyle(cell, isStart, isEnd) {
     let style = {padding: "1.5em"}
 
     const styleWall = "4px solid #222222"
@@ -162,6 +285,12 @@ function cellToStyle(cell) {
         style.borderLeft = styleWall
     } else {
         style.borderLeft = styleNoWall
+    }
+
+    if (isStart) {
+        style.backgroundColor = "lightGreen"
+    } else if (isEnd) {
+        style.backgroundColor = "lightBlue"
     }
 
     return style
