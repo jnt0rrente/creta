@@ -18,14 +18,20 @@ export function Main(fileContents)  {
     // console.log(algo.startNode);
     // console.log(algo.endNode);
 
+    let startT1 = performance.now()
     algo.run();
+    let endT1 = performance.now()
+    let t1 = endT1 - startT1
     // console.log("DFS");
     // console.log(algo.stack);
     // console.log(algo.step);
     // console.log(algo.matrix);
     // console.log("\n");
 
+    let startT2 = performance.now()
     algo2.run();
+    let endT2 = performance.now()
+    let t2 = endT2 - startT2
     // console.log("BFS");
     // console.log(algo2.result)
     // console.log(algo2.stack);
@@ -35,7 +41,9 @@ export function Main(fileContents)  {
     let returnObject = {
         matrix: algo.matrix,
         dfs: algo,
+        dfsT: t1,
         bfs: algo2,
+        bfsT: t2
     }
 
     return returnObject
