@@ -15,7 +15,9 @@ import {mazeTranspile} from "../../engine/Export"
 export default function MainPage() {
     const [matrix, setMatrix] = useState(null);
     const [dfs, setDfs] = useState(null);
+    const [timeDfs, setTimeDfs] = useState(0);
     const [bfs, setBfs] = useState(null);
+    const [timeBfs, setTimeBfs] = useState(0);
 
     const [isMatrixLoaded, setMatrixLoaded] = useState(false);
     const [isFilePicked, setIsFilePicked] = useState(false);
@@ -44,7 +46,9 @@ export default function MainPage() {
     const reset = () => {
         setMatrix(null)
         setDfs(null)
+        setTimeDfs(0)
         setBfs(null)
+        setTimeBfs(0)
 
         setMatrixLoaded(false)
         setIsFilePicked(false)
@@ -69,7 +73,9 @@ export default function MainPage() {
             let results = Main(reader.result);
             setMatrix(results.matrix);
             setDfs(results.dfs)
+            setTimeDfs(results.dfsT)
             setBfs(results.bfs)
+            setTimeBfs(results.bfsT)
           });
         reader.readAsText(event.target.files[0]);
 
@@ -87,7 +93,9 @@ export default function MainPage() {
 
         setMatrix(results.matrix);
         setDfs(results.dfs)
+        setTimeDfs(results.dfsT)
         setBfs(results.bfs)
+        setTimeBfs(results.bfsT)
 
         setIsFilePicked(true)
         setMatrixLoaded(true)
@@ -164,6 +172,7 @@ export default function MainPage() {
                                         {
                                             isSolved ? 
                                             <Box display="flex" flexDirection="column" justifyContent="center" alignItems={"center"} paddingTop="1em">
+                                                <Typography>{algorithm === "dfs" ? timeDfs : timeBfs}</Typography>
                                                 <Box display="flex" flexDirection="column" justifyContent="space-evenly" paddingTop="1em">
                                                     <AlgorithmSelector algorithm={algorithm} setAlgorithm={setAlgorithm}/>
                                                     <StepSlider isSolved={isSolved} steps={steps} sliderSelection={sliderSelection} setSliderSelection={setSliderSelection} isSeeingSteps={isSeeingSteps} setIsSeeingSteps={setIsSeeingSteps}/>

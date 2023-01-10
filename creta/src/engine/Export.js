@@ -56,9 +56,6 @@ export function mazeTranspile(creatingMatrix, startI, startJ, endI, endJ) {
     strBuffer += startI + "," + startJ + "\n"
     strBuffer += endI + "," + endJ
 
-    console.log("Generated maze:")
-    console.log(strBuffer)
-
     return strBuffer
 }
 
